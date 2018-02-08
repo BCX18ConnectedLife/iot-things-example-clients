@@ -1,0 +1,28 @@
+{
+  "name": "iot-things-example-client-nodejs",
+  "version": "0.0.1",
+  "description": "The example script things_websocket_example.js connects to the Bosch IoT Things WebSocket",
+  "main": "things_websocket_example.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BCX18ConnectedLife/iot-things-example-clients.git"
+  },
+  "keywords": [
+    "node.js",
+    "things",
+    "example"
+  ],
+  "author": "thjaeckle",
+  "license": "SEE LICENSE IN MD FILE AT TOP LEVEL OF REPOSITORY",
+  "bugs": {
+    "url": "https://github.com/BCX18ConnectedLife/iot-things-example-clients"
+  },
+  "homepage": "https://github.com/BCX18ConnectedLife/iot-things-example-clients",
+  "dependencies": {
+    "minimist": "^1.2.0",
+    "ws": "^4.0.0"
+  }
+}
