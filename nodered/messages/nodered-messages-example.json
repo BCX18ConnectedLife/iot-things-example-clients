@@ -1,0 +1,642 @@
+[
+  {
+    "id": "8f7a238b.d7e04",
+    "type": "tab",
+    "label": "Things WebSocket messages response example",
+    "disabled": false,
+    "info": "This NodeRED example connects to the Bosch IoT Things WebSocket and does the following:\n\n\n## Enhance the API of Digital Twins by fetching weather\n\nMessages sent to Things on the HTTP resource `POST /api/2/<thingId>/features/weather/inbox/messages/fetchWeather`\nand with the payload\n\n```json\n{\n    \"city\": \"Berlin\",\n    \"country\": \"de\"\n}\n```\n\nare handled by calling an external weather service which returns the current weather\nfor the provided location. Bosch IoT Things will correlate HTTP response to the request\nand answer with the current weather for the passed location.\n\nBe aware that the user you use for connecting to the WebSocket needs to have `READ` permission for\nthis specific message.\n\n\n## Registers on location changes and updates the weather\n\nThis example also reacts on changes on the path `/features/trackable/properties/location`.\nEvery time the `latitude` and `longitude` are changed, it fetches the current weather\nfor that location and updates the `/features/weather/properties/current` property\nof the same Thing which had the location change.\n\nBe aware that the user you use for connecting to the WebSocket needs to have `READ` permission for\nthe `location` property of the `trackable` feature and needs to have `WRITE` permission\non the `current` property of the `weather` feature in order to update the weather."
+  },
+  {
+    "id": "eaa36929.666c98",
+    "type": "debug",
+    "z": "8f7a238b.d7e04",
+    "name": "print control message",
+    "active": true,
+    "console": "false",
+    "complete": "payload",
+    "x": 460,
+    "y": 180,
+    "wires": []
+  },
+  {
+    "id": "3e4dcaec.4fd816",
+    "type": "inject",
+    "z": "8f7a238b.d7e04",
+    "name": "Request events",
+    "topic": "",
+    "payload": "START-SEND-EVENTS",
+    "payloadType": "str",
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "x": 140,
+    "y": 80,
+    "wires": [
+      [
+        "a47d69bd.5a0cd8"
+      ]
+    ]
+  },
+  {
+    "id": "79ec9ed8.c4e5",
+    "type": "websocket out",
+    "z": "8f7a238b.d7e04",
+    "name": "Things",
+    "server": "",
+    "client": "15b0a03d.03777",
+    "x": 490,
+    "y": 20,
+    "wires": []
+  },
+  {
+    "id": "f033dfe4.d2156",
+    "type": "websocket in",
+    "z": "8f7a238b.d7e04",
+    "name": "Things",
+    "server": "",
+    "client": "15b0a03d.03777",
+    "x": 50,
+    "y": 200,
+    "wires": [
+      [
+        "b6562d44.96235"
+      ]
+    ]
+  },
+  {
+    "id": "e32634c.6958fc8",
+    "type": "inject",
+    "z": "8f7a238b.d7e04",
+    "name": "keep alive",
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "repeat": "30",
+    "crontab": "",
+    "once": false,
+    "x": 150,
+    "y": 20,
+    "wires": [
+      [
+        "3dbf7dbe.08d152"
+      ]
+    ]
+  },
+  {
+    "id": "3dbf7dbe.08d152",
+    "type": "function",
+    "z": "8f7a238b.d7e04",
+    "name": "",
+    "func": "msg.payload = new Buffer([]);  \nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 310,
+    "y": 20,
+    "wires": [
+      [
+        "79ec9ed8.c4e5"
+      ]
+    ]
+  },
+  {
+    "id": "2af8de01.74ce92",
+    "type": "inject",
+    "z": "8f7a238b.d7e04",
+    "name": "Request messages",
+    "topic": "",
+    "payload": "START-SEND-MESSAGES",
+    "payloadType": "str",
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "x": 130,
+    "y": 120,
+    "wires": [
+      [
+        "a47d69bd.5a0cd8"
+      ]
+    ]
+  },
+  {
+    "id": "4f3e823f.d1f60c",
+    "type": "switch",
+    "z": "8f7a238b.d7e04",
+    "name": "",
+    "property": "payload.path",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "eq",
+        "v": "/inbox/messages/ping",
+        "vt": "str"
+      },
+      {
+        "t": "eq",
+        "v": "/features/weather/inbox/messages/fetchWeather",
+        "vt": "str"
+      },
+      {
+        "t": "else"
+      }
+    ],
+    "checkall": "true",
+    "outputs": 3,
+    "x": 550,
+    "y": 340,
+    "wires": [
+      [
+        "c04d1e3f.424d4"
+      ],
+      [
+        "723d3c5b.b013f4"
+      ],
+      []
+    ]
+  },
+  {
+    "id": "b8bacb10.a6f598",
+    "type": "debug",
+    "z": "8f7a238b.d7e04",
+    "name": "print unknown messages",
+    "active": true,
+    "console": "false",
+    "complete": "payload",
+    "x": 810,
+    "y": 220,
+    "wires": []
+  },
+  {
+    "id": "b34e9c0a.318a6",
+    "type": "json",
+    "z": "8f7a238b.d7e04",
+    "name": "",
+    "pretty": false,
+    "x": 170,
+    "y": 260,
+    "wires": [
+      [
+        "42fb30f6.11a6"
+      ]
+    ]
+  },
+  {
+    "id": "b6562d44.96235",
+    "type": "switch",
+    "z": "8f7a238b.d7e04",
+    "name": "protocol/json",
+    "property": "payload",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "regex",
+        "v": "^.*:ACK$",
+        "vt": "str",
+        "case": false
+      },
+      {
+        "t": "else"
+      }
+    ],
+    "checkall": "true",
+    "outputs": 2,
+    "x": 210,
+    "y": 200,
+    "wires": [
+      [
+        "eaa36929.666c98"
+      ],
+      [
+        "b34e9c0a.318a6",
+        "e51f8e27.c45d1"
+      ]
+    ]
+  },
+  {
+    "id": "a47d69bd.5a0cd8",
+    "type": "delay",
+    "z": "8f7a238b.d7e04",
+    "name": "",
+    "pauseType": "delay",
+    "timeout": "2",
+    "timeoutUnits": "seconds",
+    "rate": "1",
+    "nbRateUnits": "1",
+    "rateUnits": "second",
+    "randomFirst": "1",
+    "randomLast": "5",
+    "randomUnits": "seconds",
+    "drop": false,
+    "x": 320,
+    "y": 80,
+    "wires": [
+      [
+        "79ec9ed8.c4e5"
+      ]
+    ]
+  },
+  {
+    "id": "e51f8e27.c45d1",
+    "type": "debug",
+    "z": "8f7a238b.d7e04",
+    "name": "print Ditto Protocol message",
+    "active": false,
+    "console": "false",
+    "complete": "payload",
+    "x": 480,
+    "y": 220,
+    "wires": []
+  },
+  {
+    "id": "64aca341.0dcb4c",
+    "type": "debug",
+    "z": "8f7a238b.d7e04",
+    "name": "print response",
+    "active": true,
+    "console": "false",
+    "complete": "payload",
+    "x": 1300,
+    "y": 480,
+    "wires": []
+  },
+  {
+    "id": "3ef26078.2b34b",
+    "type": "websocket out",
+    "z": "8f7a238b.d7e04",
+    "name": "Things",
+    "server": "",
+    "client": "15b0a03d.03777",
+    "x": 1310,
+    "y": 520,
+    "wires": []
+  },
+  {
+    "id": "c04d1e3f.424d4",
+    "type": "template",
+    "z": "8f7a238b.d7e04",
+    "name": "create response message",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "json",
+    "syntax": "mustache",
+    "template": "{\n    \"topic\": \"{{{payload.topic}}}\",\n    \"path\": \"{{{payload.path}}}\",\n    \"headers\": {\n        \"thing-id\": \"{{{payload.headers.thing-id}}}\",\n        \"direction\": \"FROM\",\n        \"subject\": \"{{{payload.headers.subject}}}\",\n        \"correlation-id\": \"{{{payload.headers.correlation-id}}}\",\n        \"content-type\": \"text/plain\"\n    },\n    \"status\": 200,\n    \"value\": \"PONG! {{{payload.value}}}\"\n}",
+    "output": "str",
+    "x": 790,
+    "y": 340,
+    "wires": [
+      [
+        "da46e758.17e108"
+      ]
+    ]
+  },
+  {
+    "id": "da46e758.17e108",
+    "type": "json",
+    "z": "8f7a238b.d7e04",
+    "name": "",
+    "pretty": false,
+    "x": 1170,
+    "y": 400,
+    "wires": [
+      [
+        "65b5e29.8dc981c"
+      ]
+    ]
+  },
+  {
+    "id": "65b5e29.8dc981c",
+    "type": "change",
+    "z": "8f7a238b.d7e04",
+    "name": "change to response",
+    "rules": [
+      {
+        "t": "delete",
+        "p": "_session",
+        "pt": "msg"
+      },
+      {
+        "t": "change",
+        "p": "payload.path",
+        "pt": "msg",
+        "from": "/inbox/",
+        "fromt": "str",
+        "to": "/outbox/",
+        "tot": "str"
+      }
+    ],
+    "action": "",
+    "property": "",
+    "from": "",
+    "to": "",
+    "reg": false,
+    "x": 1250,
+    "y": 440,
+    "wires": [
+      [
+        "64aca341.0dcb4c",
+        "3ef26078.2b34b"
+      ]
+    ]
+  },
+  {
+    "id": "f63a899a.12b1c8",
+    "type": "comment",
+    "z": "8f7a238b.d7e04",
+    "name": "/inbox/messages/ping",
+    "info": "",
+    "x": 760,
+    "y": 300,
+    "wires": []
+  },
+  {
+    "id": "b407f456.636f28",
+    "type": "template",
+    "z": "8f7a238b.d7e04",
+    "name": "create response message",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "json",
+    "syntax": "mustache",
+    "template": "{\n    \"topic\": \"{{{payload.topic}}}\",\n    \"path\": \"{{{payload.path}}}\",\n    \"headers\": {\n        \"thing-id\": \"{{{payload.headers.thing-id}}}\",\n        \"feature-id\": \"{{{payload.headers.feature-id}}}\",\n        \"direction\": \"FROM\",\n        \"subject\": \"{{{payload.headers.subject}}}\",\n        \"correlation-id\": \"{{{payload.headers.correlation-id}}}\",\n        \"content-type\": \"application/json\"\n    },\n    \"status\": 200,\n    \"value\": {\n        \"city\": \"{{response.name}}\",\n        \"temp\": \"{{response.main.temp}}\",\n        \"humidity\": \"{{response.main.humidity}}\",\n        \"description\": \"{{response.weather.0.description}}\"\n    }\n}",
+    "output": "str",
+    "x": 910,
+    "y": 520,
+    "wires": [
+      [
+        "da46e758.17e108"
+      ]
+    ]
+  },
+  {
+    "id": "26746517.6f156a",
+    "type": "comment",
+    "z": "8f7a238b.d7e04",
+    "name": "/features/weather/inbox/messages/fetchWeather",
+    "info": "",
+    "x": 840,
+    "y": 440,
+    "wires": []
+  },
+  {
+    "id": "72dbe406.ce340c",
+    "type": "http request",
+    "z": "8f7a238b.d7e04",
+    "name": "openweathermap HTTP",
+    "method": "GET",
+    "ret": "obj",
+    "url": "https://api.openweathermap.org/data/2.5/weather?q={{dittopayload.value.city}},{{dittopayload.value.country}}&appid=b35060c7a0a6c6fdb05f72b8632c7ab4&units=metric",
+    "tls": "",
+    "x": 910,
+    "y": 480,
+    "wires": [
+      [
+        "af1b3cef.b89b7"
+      ]
+    ]
+  },
+  {
+    "id": "af1b3cef.b89b7",
+    "type": "change",
+    "z": "8f7a238b.d7e04",
+    "name": "map",
+    "rules": [
+      {
+        "t": "move",
+        "p": "payload",
+        "pt": "msg",
+        "to": "response",
+        "tot": "msg"
+      },
+      {
+        "t": "move",
+        "p": "dittopayload",
+        "pt": "msg",
+        "to": "payload",
+        "tot": "msg"
+      }
+    ],
+    "action": "",
+    "property": "",
+    "from": "",
+    "to": "",
+    "reg": false,
+    "x": 730,
+    "y": 520,
+    "wires": [
+      [
+        "b407f456.636f28"
+      ]
+    ]
+  },
+  {
+    "id": "723d3c5b.b013f4",
+    "type": "change",
+    "z": "8f7a238b.d7e04",
+    "name": "map",
+    "rules": [
+      {
+        "t": "move",
+        "p": "payload",
+        "pt": "msg",
+        "to": "dittopayload",
+        "tot": "msg"
+      }
+    ],
+    "action": "",
+    "property": "",
+    "from": "",
+    "to": "",
+    "reg": false,
+    "x": 730,
+    "y": 480,
+    "wires": [
+      [
+        "72dbe406.ce340c"
+      ]
+    ]
+  },
+  {
+    "id": "42fb30f6.11a6",
+    "type": "switch",
+    "z": "8f7a238b.d7e04",
+    "name": "messages/events",
+    "property": "payload.path",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "cont",
+        "v": "/inbox/messages/",
+        "vt": "str"
+      },
+      {
+        "t": "else"
+      }
+    ],
+    "checkall": "true",
+    "outputs": 2,
+    "x": 190,
+    "y": 360,
+    "wires": [
+      [
+        "4f3e823f.d1f60c"
+      ],
+      [
+        "85b7d78e.7a4728"
+      ]
+    ],
+    "outputLabels": [
+      "messages",
+      ""
+    ]
+  },
+  {
+    "id": "85b7d78e.7a4728",
+    "type": "switch",
+    "z": "8f7a238b.d7e04",
+    "name": "",
+    "property": "payload.path",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "eq",
+        "v": "/features/trackable/properties/location",
+        "vt": "str"
+      },
+      {
+        "t": "else"
+      }
+    ],
+    "checkall": "true",
+    "outputs": 2,
+    "x": 90,
+    "y": 620,
+    "wires": [
+      [
+        "bd96b10e.0bca6"
+      ],
+      []
+    ]
+  },
+  {
+    "id": "cd3e2f0e.08fb4",
+    "type": "comment",
+    "z": "8f7a238b.d7e04",
+    "name": "/features/trackable/properties/location",
+    "info": "",
+    "x": 350,
+    "y": 500,
+    "wires": []
+  },
+  {
+    "id": "bd96b10e.0bca6",
+    "type": "change",
+    "z": "8f7a238b.d7e04",
+    "name": "map",
+    "rules": [
+      {
+        "t": "move",
+        "p": "payload",
+        "pt": "msg",
+        "to": "dittopayload",
+        "tot": "msg"
+      }
+    ],
+    "action": "",
+    "property": "",
+    "from": "",
+    "to": "",
+    "reg": false,
+    "x": 270,
+    "y": 540,
+    "wires": [
+      [
+        "7e6ec8e9.de2c48"
+      ]
+    ]
+  },
+  {
+    "id": "7e6ec8e9.de2c48",
+    "type": "http request",
+    "z": "8f7a238b.d7e04",
+    "name": "openweathermap HTTP",
+    "method": "GET",
+    "ret": "obj",
+    "url": "https://api.openweathermap.org/data/2.5/weather?lat={{dittopayload.value.latitude}}&lon={{dittopayload.value.longitude}}&appid=b35060c7a0a6c6fdb05f72b8632c7ab4&units=metric",
+    "tls": "",
+    "x": 450,
+    "y": 540,
+    "wires": [
+      [
+        "6ed1e6a3.a95a68"
+      ]
+    ]
+  },
+  {
+    "id": "6ed1e6a3.a95a68",
+    "type": "change",
+    "z": "8f7a238b.d7e04",
+    "name": "map",
+    "rules": [
+      {
+        "t": "move",
+        "p": "payload",
+        "pt": "msg",
+        "to": "response",
+        "tot": "msg"
+      },
+      {
+        "t": "move",
+        "p": "dittopayload",
+        "pt": "msg",
+        "to": "payload",
+        "tot": "msg"
+      },
+      {
+        "t": "change",
+        "p": "payload.topic",
+        "pt": "msg",
+        "from": "/things/twin/events/modified",
+        "fromt": "str",
+        "to": "/things/twin/commands/modify",
+        "tot": "str"
+      }
+    ],
+    "action": "",
+    "property": "",
+    "from": "",
+    "to": "",
+    "reg": false,
+    "x": 270,
+    "y": 580,
+    "wires": [
+      [
+        "bfe32b9b.479dd8"
+      ]
+    ]
+  },
+  {
+    "id": "bfe32b9b.479dd8",
+    "type": "template",
+    "z": "8f7a238b.d7e04",
+    "name": "create twin update message",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "json",
+    "syntax": "mustache",
+    "template": "{\n    \"topic\": \"{{{payload.topic}}}\",\n    \"path\": \"/features/weather/properties/current\",\n    \"headers\": {\n        \"content-type\": \"application/json\"\n    },\n    \"value\": {\n        \"city\": \"{{response.name}}\",\n        \"temp\": \"{{response.main.temp}}\",\n        \"humidity\": \"{{response.main.humidity}}\",\n        \"description\": \"{{response.weather.0.description}}\"\n    }\n}",
+    "output": "str",
+    "x": 460,
+    "y": 580,
+    "wires": [
+      [
+        "da46e758.17e108"
+      ]
+    ]
+  },
+  {
+    "id": "15b0a03d.03777",
+    "type": "websocket-client",
+    "z": "",
+    "path": "wss://TENANTID%5cUSERID:PASSWORD@things.s-apps.de1.bosch-iot-cloud.com/ws/2?x-cr-api-token=APITOKEN",
+    "wholemsg": "false"
+  }
+]
