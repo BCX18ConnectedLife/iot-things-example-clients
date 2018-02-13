@@ -28,3 +28,6 @@ hs_err_pid*
 .project
 .settings/
 target/
+
+node_modules/
+package-lock.json

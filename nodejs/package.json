@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/BCX18ConnectedLife/iot-things-example-clients",
   "dependencies": {
-    "minimist": "^1.2.0",
-    "ws": "^4.0.0"
+    "minimist": "1.2.x",
+    "ws": "4.0.x"
   }
 }
