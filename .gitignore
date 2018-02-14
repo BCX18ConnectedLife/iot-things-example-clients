@@ -32,3 +32,8 @@ target/
 dist/
 node_modules/
 package-lock.json
+
+/go/things/examples/things-cli/things-cli
+/go/things/examples/rest-crud/rest-crud
+/go/things/examples/ws-crud/ws-crud
+/go/things/examples/ws-events/ws-events

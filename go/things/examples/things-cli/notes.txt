@@ -1,0 +1,12 @@
+things login
+	>u, p, tok
+
+things get id
+things delete id
+thigns update id	<json>
+things add		id 	<json>
+things sub
+things sub delete
+things sub create
+things sub update
+
