@@ -1,7 +1,7 @@
 {
   "name": "iot-things-example-client-nodejs",
   "version": "0.0.1",
-  "description": "The example script things_websocket_example.js connects to the Bosch IoT Things WebSocket",
+  "description": "The example script connects to the Bosch IoT Things WebSocket",
   "main": "things_websocket_example.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

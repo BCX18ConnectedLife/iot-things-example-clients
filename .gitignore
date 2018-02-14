@@ -29,5 +29,6 @@ hs_err_pid*
 .settings/
 target/
 
+dist/
 node_modules/
 package-lock.json
