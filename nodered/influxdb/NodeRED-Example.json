@@ -1,1 +1,265 @@
-[{"id":"e14df7c.c351088","type":"websocket in","z":"1d8a289e.ec8d77","name":"things","server":"","client":"1a101cfc.582513","x":77,"y":65,"wires":[["52919f3.adc21e"]]},{"id":"4db70aee.85b13c","type":"websocket out","z":"1d8a289e.ec8d77","name":"things","server":"","client":"1a101cfc.582513","x":767,"y":556,"wires":[]},{"id":"7bb0fc2e.d86b64","type":"status","z":"1d8a289e.ec8d77","name":"","scope":["4db70aee.85b13c"],"x":79,"y":486,"wires":[["ce278c30.2bf6c8"]]},{"id":"ae4c7345.6c0ae8","type":"switch","z":"1d8a289e.ec8d77","name":"ignore empty status","property":"payload","propertyType":"msg","rules":[{"t":"neq","v":"","vt":"str"}],"checkall":"true","outputs":1,"x":456,"y":486,"wires":[["66204af2.474fec"]]},{"id":"ce278c30.2bf6c8","type":"function","z":"1d8a289e.ec8d77","name":"get status text","func":"msg.payload = msg.status.text;\nreturn msg;","outputs":1,"noerr":0,"x":256,"y":486,"wires":[["ae4c7345.6c0ae8"]]},{"id":"66204af2.474fec","type":"switch","z":"1d8a289e.ec8d77","name":"if (status == connected)","property":"payload","propertyType":"msg","rules":[{"t":"eq","v":"connected ","vt":"str"}],"checkall":"true","outputs":1,"x":337,"y":556,"wires":[["b05c84b5.5c6f3"]]},{"id":"b05c84b5.5c6f3","type":"template","z":"1d8a289e.ec8d77","name":"START-SEND-EVENTS","field":"payload","fieldType":"msg","format":"handlebars","syntax":"mustache","template":"START-SEND-EVENTS","x":574,"y":556,"wires":[["4db70aee.85b13c"]]},{"id":"cfebc87.afd6438","type":"comment","z":"1d8a289e.ec8d77","name":"Request Things events once connection is established","info":"","x":218,"y":445,"wires":[]},{"id":"bcfc4ec1.03c41","type":"comment","z":"1d8a289e.ec8d77","name":"Receive Things events, post-process and store them in InfluxDB","info":"","x":253,"y":26,"wires":[]},{"id":"3cbf1198.85dad6","type":"switch","z":"1d8a289e.ec8d77","name":"Filter out non-feature messages","property":"payload.path","propertyType":"msg","rules":[{"t":"regex","v":"/features/.+","vt":"str","case":false},{"t":"else"}],"checkall":"true","outputs":2,"x":489.5,"y":63,"wires":[["c5d07304.bf465"],[]]},{"id":"db277fa1.3f316","type":"debug","z":"1d8a289e.ec8d77","name":"","active":false,"console":"false","complete":"false","x":1009.0790252685542,"y":246.49999237060536,"wires":[]},{"id":"52919f3.adc21e","type":"function","z":"1d8a289e.ec8d77","name":"parse JSON","func":"try {\n    obj = JSON.parse(msg.payload);\n    msg.origPayload = msg.payload,\n    msg.payload = obj;\n} catch (e) {\n    node.log(\"Non-JSON message: '\" + msg.payload + \"'\")\n}\n\nreturn msg;","outputs":1,"noerr":0,"x":254.65072631835938,"y":63.23161315917969,"wires":[["3cbf1198.85dad6"]]},{"id":"e0992033.0e727","type":"debug","z":"1d8a289e.ec8d77","name":"","active":false,"console":"false","complete":"false","x":439.5,"y":307,"wires":[]},{"id":"28408b14.c25ddc","type":"comment","z":"1d8a289e.ec8d77","name":"Your processing here","info":"","x":445,"y":166,"wires":[]},{"id":"c5d07304.bf465","type":"function","z":"1d8a289e.ec8d77","name":"value->payload, extract Thing ID","func":"\nvar thingsPayload = msg.payload;\n\nmsg.thingId = thingsPayload.topic.replace(/\\/things\\/twin.+/, \"\");\nmsg.feature = thingsPayload.path.replace(/\\/features\\//, \"\").replace(/\\//, \".\");\n\nmsg.payload.thingId = msg.thingId;\nmsg.payload.feature = msg.feature;\n\nreturn msg;","outputs":1,"noerr":0,"x":285.5,"y":197,"wires":[["e0992033.0e727"]]},{"id":"1a101cfc.582513","type":"websocket-client","z":"","path":"wss://TENANTID%5cUSERID:PASSWORD@things.apps.bosch-iot-cloud.com/ws/1?x-cr-api-token=APITOKEN","wholemsg":"false"}]
+[
+  {
+    "id": "720380c8.2583b",
+    "type": "websocket in",
+    "z": "b069b794.c20768",
+    "name": "things",
+    "server": "",
+    "client": "cfdab580.408f28",
+    "x": 75,
+    "y": 83,
+    "wires": [
+      [
+        "2592791f.9bc526"
+      ]
+    ]
+  },
+  {
+    "id": "e2408a1f.d33ff8",
+    "type": "websocket out",
+    "z": "b069b794.c20768",
+    "name": "things",
+    "server": "",
+    "client": "cfdab580.408f28",
+    "x": 765,
+    "y": 574,
+    "wires": []
+  },
+  {
+    "id": "4de86292.60cf6c",
+    "type": "status",
+    "z": "b069b794.c20768",
+    "name": "",
+    "scope": [
+      "e2408a1f.d33ff8"
+    ],
+    "x": 77,
+    "y": 504,
+    "wires": [
+      [
+        "47cd0986.f78608"
+      ]
+    ]
+  },
+  {
+    "id": "5e762c80.56318c",
+    "type": "switch",
+    "z": "b069b794.c20768",
+    "name": "ignore empty status",
+    "property": "payload",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "neq",
+        "v": "",
+        "vt": "str"
+      }
+    ],
+    "checkall": "true",
+    "outputs": 1,
+    "x": 454,
+    "y": 504,
+    "wires": [
+      [
+        "29630d7a.98378a"
+      ]
+    ]
+  },
+  {
+    "id": "47cd0986.f78608",
+    "type": "function",
+    "z": "b069b794.c20768",
+    "name": "get status text",
+    "func": "msg.payload = msg.status.text;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 254,
+    "y": 504,
+    "wires": [
+      [
+        "5e762c80.56318c"
+      ]
+    ]
+  },
+  {
+    "id": "29630d7a.98378a",
+    "type": "switch",
+    "z": "b069b794.c20768",
+    "name": "if (status == connected)",
+    "property": "payload",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "eq",
+        "v": "connected ",
+        "vt": "str"
+      }
+    ],
+    "checkall": "true",
+    "outputs": 1,
+    "x": 335,
+    "y": 574,
+    "wires": [
+      [
+        "68310f14.e0583"
+      ]
+    ]
+  },
+  {
+    "id": "68310f14.e0583",
+    "type": "template",
+    "z": "b069b794.c20768",
+    "name": "START-SEND-EVENTS",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "START-SEND-EVENTS",
+    "x": 572,
+    "y": 574,
+    "wires": [
+      [
+        "e2408a1f.d33ff8"
+      ]
+    ]
+  },
+  {
+    "id": "ff4a02e3.843ab8",
+    "type": "comment",
+    "z": "b069b794.c20768",
+    "name": "Request Things events once connection is established",
+    "info": "",
+    "x": 216,
+    "y": 463,
+    "wires": []
+  },
+  {
+    "id": "28fbe259.895c36",
+    "type": "comment",
+    "z": "b069b794.c20768",
+    "name": "Receive Things events, post-process and store them in InfluxDB",
+    "info": "",
+    "x": 251,
+    "y": 44,
+    "wires": []
+  },
+  {
+    "id": "9d3a94d3.35f8b",
+    "type": "switch",
+    "z": "b069b794.c20768",
+    "name": "Filter out non-feature messages",
+    "property": "payload.path",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "regex",
+        "v": "/features/.+",
+        "vt": "str",
+        "case": false
+      },
+      {
+        "t": "else"
+      }
+    ],
+    "checkall": "true",
+    "outputs": 2,
+    "x": 487.5,
+    "y": 81,
+    "wires": [
+      [
+        "6a4a4e83.014fb8"
+      ],
+      []
+    ]
+  },
+  {
+    "id": "2592791f.9bc526",
+    "type": "function",
+    "z": "b069b794.c20768",
+    "name": "parse JSON",
+    "func": "try {\n    obj = JSON.parse(msg.payload);\n    msg.origPayload = msg.payload,\n    msg.payload = obj;\n} catch (e) {\n    node.log(\"Non-JSON message: '\" + msg.payload + \"'\")\n}\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 252.65072631835938,
+    "y": 81.23161315917969,
+    "wires": [
+      [
+        "9d3a94d3.35f8b"
+      ]
+    ]
+  },
+  {
+    "id": "6a4a4e83.014fb8",
+    "type": "function",
+    "z": "b069b794.c20768",
+    "name": "value->payload, extract Thing ID",
+    "func": "\nvar thingsPayload = msg.payload;\n\nmsg.thingId = thingsPayload.topic.replace(/\\/things\\/twin.+/, \"\");\nmsg.feature = thingsPayload.path.replace(/\\/features\\//, \"\").replace(/\\//, \".\");\n\nmsg.payload = thingsPayload.value.properties || thingsPayload.value;\n\nmsg.payload.thingId = msg.thingId;\nmsg.measurement = msg.feature;\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 283.5,
+    "y": 215,
+    "wires": [
+      [
+        "17dda20.aefee5e"
+      ]
+    ]
+  },
+  {
+    "id": "17dda20.aefee5e",
+    "type": "flatten",
+    "z": "b069b794.c20768",
+    "name": "",
+    "x": 468,
+    "y": 266,
+    "wires": [
+      [
+        "e088fc0d.136b5",
+        "f39bfa28.2e8478"
+      ]
+    ]
+  },
+  {
+    "id": "f39bfa28.2e8478",
+    "type": "influxdb out",
+    "z": "b069b794.c20768",
+    "influxdb": "e99c1f98.a4ad8",
+    "name": "InfluxDB:bcx18",
+    "measurement": "",
+    "precision": "",
+    "retentionPolicy": "",
+    "x": 639,
+    "y": 216,
+    "wires": []
+  },
+  {
+    "id": "e088fc0d.136b5",
+    "type": "debug",
+    "z": "b069b794.c20768",
+    "name": "",
+    "active": true,
+    "console": "false",
+    "complete": "false",
+    "x": 640.5790405273438,
+    "y": 359.5,
+    "wires": []
+  },
+  {
+    "id": "cfdab580.408f28",
+    "type": "websocket-client",
+    "z": "",
+    "path": "wss://TENANTID%5cUSERID:PASSWORD@things.s-apps.de1.bosch-iot-cloud.com/ws/2?x-cr-api-token=APITOKEN",
+    "wholemsg": "false"
+  },
+  {
+    "id": "e99c1f98.a4ad8",
+    "type": "influxdb",
+    "z": "",
+    "hostname": "influxdb",
+    "port": "8086",
+    "protocol": "http",
+    "database": "bcx18",
+    "name": "bcx18",
+    "usetls": false,
+    "tls": ""
+  }
+]
