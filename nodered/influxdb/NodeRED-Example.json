@@ -247,7 +247,7 @@
     "id": "cfdab580.408f28",
     "type": "websocket-client",
     "z": "",
-    "path": "wss://TENANTID%5cUSERID:PASSWORD@things.s-apps.de1.bosch-iot-cloud.com/ws/2?x-cr-api-token=APITOKEN",
+    "path": "wss://bcx18:bcx18!Open2@things.s-apps.de1.bosch-iot-cloud.com/ws/2?x-cr-api-token=db7f4e0cca344d32be72914311f1055f",
     "wholemsg": "false"
   },
   {

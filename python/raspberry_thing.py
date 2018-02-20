@@ -7,10 +7,10 @@ from grove_light_sensor import LightSensor
 from grove_temp_sensor import TemperatureHumiditySensor
 
 # User and password needed for providing new sensor values
-THINGS_USER = "TODO-insert-user"
-THINGS_PASSWORD = "TODO-insert-password"
-THINGS_API_TOKEN = "TODO-insert-api-token"
-# The id of our raspberry Thing
+THINGS_USER = "bcx18"
+THINGS_PASSWORD = "bcx18!Open2"
+THINGS_API_TOKEN = "db7f4e0cca344d32be72914311f1055f"
+# The id of our raspberry Thing - TODO adjust!
 THING_ID = "BCX18/raspberry"
 
 # Message / Event paths.
