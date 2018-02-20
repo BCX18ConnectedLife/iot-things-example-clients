@@ -46,6 +46,21 @@ export class ThingsClient {
         })
     }
 
+    retrieve(username, password, apitoken, thingId) {
+        const url = `https://things.s-apps.de1.bosch-iot-cloud.com/api/2/things/${thingId}?x-cr-api-token=${apitoken}`;
+        ThingsClient.log(`Retrieving Thing from ${url}`);
+
+        let headers = new Headers();
+        headers.append('Authorization', 'Basic ' + btoa(username + ":" + password));
+
+        fetch(url, {method:'GET',
+            headers: headers,
+            credentials: 'include'
+        })
+            .then(response => response.json())
+            .then(json => this.onMessage(JSON.stringify(json)));
+    }
+
     send(message) {
         if (message.startsWith("ST")) { // START- and STOP- messages
             this.socket.send(message);

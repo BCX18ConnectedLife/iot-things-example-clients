@@ -35,6 +35,13 @@ document.querySelector('#connect').addEventListener('click', () => {
     let apitoken = document.querySelector('#apitoken').value;
     client.connect(username, password, apitoken);
 });
+document.querySelector('#retrieve').addEventListener('click', () => {
+    let username = document.querySelector('#username').value;
+    let password = document.querySelector('#password').value;
+    let apitoken = document.querySelector('#apitoken').value;
+    let thingid = document.querySelector('#thingid').value;
+    client.retrieve(username, password, apitoken, thingid);
+});
 
 document.querySelector('#input').addEventListener('change', () => {
     document.querySelector('#input').value = prettyPrint(document.querySelector('#input').value);
