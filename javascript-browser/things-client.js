@@ -53,7 +53,8 @@ export class ThingsClient {
         let headers = new Headers();
         headers.append('Authorization', 'Basic ' + btoa(username + ":" + password));
 
-        fetch(url, {method:'GET',
+        fetch(url, {
+            method: 'GET',
             headers: headers,
             credentials: 'include'
         })
@@ -69,6 +70,10 @@ export class ThingsClient {
         } else {
             this.onMessage('Error parsing JSON');
         }
+    }
+
+    subscribe() {
+        this.socket.send('START-SEND-EVENTS');
     }
 
     keepAlive(socket, heartbeat) {

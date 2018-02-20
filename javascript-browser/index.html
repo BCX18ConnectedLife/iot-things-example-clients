@@ -65,27 +65,12 @@
         <button type="button" class="btn btn-outline-dark btn-lg" id="connect">Connect</button>
     </div>
 </div>
-<div class="jumbotron jumbotron-fluid">
-    <div class="container">
-        <p class="lead">Retrieve a Thing by its ID.</p>
-        <hr class="my-4">
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="addon-thingid">@</span>
-            </div>
-            <input type="text" class="form-control" placeholder="Thing ID" aria-label="ThingID"
-                   aria-describedby="addon-thingid" id="thingid">
-        </div>
-        <button type="button" class="btn btn-outline-dark btn-lg" id="retrieve">Retrieve</button>
-    </div>
-</div>
 <div class="container">
     <div class="row">
         <div class="col">
             <div class="row">
                 <div class="col">
-                    <h5>Request</h5>
-                    <p>In order to receive change notifications, type <span style="font-family: monospace">START-SEND-EVENTS</span></p>
+                    <h5>Send Ditto Protocol Messages to a Thing</h5>
                     <textarea class="form-control" id="input"></textarea>
                 </div>
             </div>
@@ -94,6 +79,33 @@
                     <button type="button" class="btn btn-outline-dark" id="send">Send</button>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col">
+            <h5>Subscribe to events of a Thing</h5>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="addon-topic">@</span>
+                </div>
+                <input type="text" class="form-control" placeholder="bosch.xdk/myXDK/things/twin/events/modified"
+                       aria-label="Topic"
+                       aria-describedby="addon-events-thingid" id="topic">
+            </div>
+            <button type="button" class="btn btn-outline-dark btn-lg" id="subscribe">Subscribe</button>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col">
+            <h5>Retrieve a Thing</h5>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="addon-thingid">@</span>
+                </div>
+                <input type="text" class="form-control" placeholder="Thing ID" aria-label="ThingID"
+                       aria-describedby="addon-thingid" id="thingid">
+            </div>
+            <button type="button" class="btn btn-outline-dark btn-lg" id="retrieve">Retrieve</button>
         </div>
     </div>
     <div class="row mt-5">

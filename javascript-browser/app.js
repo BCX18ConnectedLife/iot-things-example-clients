@@ -25,8 +25,16 @@
  */
 import {ThingsClient} from "./things-client.js";
 
+let topic;
+
 const client = new ThingsClient((message) => {
-    document.querySelector('#output').innerHTML = prettyPrint(message);
+    let json = tryParseJson(message);
+    if (json && topic) {
+        if (json.topic !== topic) {
+            return;
+        }
+    }
+    document.querySelector('#output').innerHTML = prettyPrintJson(json);
 });
 
 document.querySelector('#connect').addEventListener('click', () => {
@@ -42,18 +50,26 @@ document.querySelector('#retrieve').addEventListener('click', () => {
     let thingid = document.querySelector('#thingid').value;
     client.retrieve(username, password, apitoken, thingid);
 });
+document.querySelector('#subscribe').addEventListener('click', () => {
+    topic = document.querySelector('#topic').value;
+    client.subscribe();
+});
 
 document.querySelector('#input').addEventListener('change', () => {
-    document.querySelector('#input').value = prettyPrint(document.querySelector('#input').value);
+    document.querySelector('#input').value = prettyPrintJson(document.querySelector('#input').value);
 });
 
 document.querySelector('#send').addEventListener('click', () => {
     client.send(document.querySelector('#input').value);
 });
 
-function prettyPrint(message) {
+function prettyPrintJson(json) {
+    return JSON.stringify(json, undefined, 2);
+}
+
+function tryParseJson(message) {
     try {
-        return JSON.stringify(JSON.parse(message), undefined, 2);
+        return JSON.parse(message);
     } catch (e) {
         return message;
     }
