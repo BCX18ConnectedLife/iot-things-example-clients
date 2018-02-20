@@ -43,9 +43,9 @@ import com.bosch.iot.things.clientapi.ThingsClient;
  */
 public final class HelloWorld {
 
-    private static final String USERNAME = "TODO insert your username here";
-    private static final String PASSWORD = "TODO insert your password here";
-    private static final String THINGS_API_TOKEN = "TODO insert your Things API-Token here";
+    private static final String USERNAME = "bcx18";
+    private static final String PASSWORD = "bcx18!Open2";
+    private static final String THINGS_API_TOKEN = "db7f4e0cca344d32be72914311f1055f";
 
     /**
      * Entry point.

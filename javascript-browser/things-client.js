@@ -47,7 +47,9 @@ export class ThingsClient {
     }
 
     send(message) {
-        if (JSON.parse(message)) {
+        if (message.startsWith("ST")) { // START- and STOP- messages
+            this.socket.send(message);
+        } else if (JSON.parse(message)) {
             this.socket.send(message);
         } else {
             this.onMessage('Error parsing JSON');
