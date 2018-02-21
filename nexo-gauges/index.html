@@ -1,0 +1,117 @@
+<!--
+~ Bosch SI Example Code License Version 1.0, January 2016
+~
+~ Copyright 2018 Bosch Software Innovations GmbH ('Bosch SI'). All rights reserved.
+~
+~ Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+~ following conditions are met:
+~
+~ 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following
+~ disclaimer.
+~
+~ 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
+~ following disclaimer in the documentation and/or other materials provided with the distribution.
+~
+~ BOSCH SI PROVIDES THE PROGRAM 'AS IS' WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT
+~ LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE
+~ QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL
+~ NECESSARY SERVICING, REPAIR OR CORRECTION. THIS SHALL NOT APPLY TO MATERIAL DEFECTS AND DEFECTS OF TITLE WHICH BOSCH
+~ SI HAS FRAUDULENTLY CONCEALED. APART FROM THE CASES STIPULATED ABOVE, BOSCH SI SHALL BE LIABLE WITHOUT LIMITATION FOR
+~ INTENT OR GROSS NEGLIGENCE, FOR INJURIES TO LIFE, BODY OR HEALTH AND ACCORDING TO THE PROVISIONS OF THE GERMAN
+~ PRODUCT LIABILITY ACT (PRODUKTHAFTUNGSGESETZ). THE SCOPE OF A GUARANTEE GRANTED BY BOSCH SI SHALL REMAIN UNAFFECTED
+~ BY LIMITATIONS OF LIABILITY. IN ALL OTHER CASES, LIABILITY OF BOSCH SI IS EXCLUDED. THESE LIMITATIONS OF LIABILITY
+~ ALSO APPLY IN REGARD TO THE FAULT OF VICARIOUS AGENTS OF BOSCH SI AND THE PERSONAL LIABILITY OF BOSCH SI'S EMPLOYEES,
+~ REPRESENTATIVES AND ORGANS.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bosch IoT Things - Nexo Gauges example</title>
+
+    <style>
+        body {
+            font: 11px arial;
+        }
+
+        h2 {
+            margin: 0;
+            margin-top: 10px;
+            margin-left: 35px;
+            padding: 4px 15px;
+            cursor: pointer;
+            background: #666;
+            color: #fff;
+            border-bottom: 2px solid #fff;
+        }
+
+        .modifiedDate {
+            float: right;
+        }
+
+        .led-red {
+            float: left;
+            width: 29px;
+            height: 29px;
+            background-color: #940;
+            border-radius: 50%;
+            box-shadow: #000 0 -1px 7px 1px, inset #600 0 -1px 9px, #F00 0 2px 12px;
+        }
+
+        .led-yellow {
+            float: left;
+            width: 29px;
+            height: 29px;
+            background-color: #A90;
+            border-radius: 50%;
+            box-shadow: #000 0 -1px 7px 1px, inset #660 0 -1px 9px, #DD0 0 2px 12px;
+        }
+
+        .led-green {
+            float: left;
+            width: 29px;
+            height: 29px;
+            background-color: #690;
+            border-radius: 50%;
+            box-shadow: #000 0 -1px 7px 1px, inset #460 0 -1px 9px, #7D0 0 2px 12px;
+        }
+
+    </style>
+</head>
+<body>
+<table>
+    <tr>
+        <td>Username:</td>
+        <td>
+            <input type="text" name="username" id="username" class="text" value="bcx18" />
+        </td>
+    </tr>
+    <tr>
+        <td>Password:</td>
+        <td>
+            <input type="password" name="password" id="password" class="text" value="bcx18!Open2" />
+        </td>
+    </tr>
+    <tr>
+        <td>Things API Token:</td>
+        <td>
+            <input type="text" name="apitoken" id="apitoken" class="text" value="db7f4e0cca344d32be72914311f1055f" />
+        </td>
+    </tr>
+    <tr>
+        <td>Thing ID:</td>
+        <td>
+            <input type="text" name="thingId" id="thingId" class="text" value="BCX18:NexoE2C60C" />
+        </td>
+    </tr>
+</table>
+<button id="actionButton" type="button">update</button>
+<input id="pollCheckbox" type="checkbox" /><span>Polling</span>
+<hr />
+<div id="xdklist">
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script src="https://d3js.org/d3.v2.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
