@@ -16,7 +16,7 @@ Use those credentials when accessing the HTTP/WebSocket API by scripting
 * API Token: db7f4e0cca344d32be72914311f1055f
 
 ### Bosch ID
-Use those credentials when accessing the [Developer Console](https://console-bcx.bosch-iot-suite.com/#/login) via the browser
+Use those credentials when accessing the [https://console-bcx.bosch-iot-suite.com/](https://console-bcx.bosch-iot-suite.com/#/login) via the browser
 * E-Mail: bcx18participant@gmail.com
 * PW: bcx18!Open2
 
